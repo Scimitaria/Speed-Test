@@ -5,12 +5,38 @@ TIMEFMT='%*E'
 
 #create JSON object to hold results
 results='{}'
+#min time, lang
+minTime=999999
+fastest=Plankalkul
 
-#add a value
+#C
 gcc sorts/sort.c -o sort
-t=$( { time ./sort; } 2>&1 )
+t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.C = $t')
 rm sort
+
+#C++
+g++ sorts/sort.cpp -o sort
+t=$( { time (./sort;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '."C++" = $t')
+rm sort
+
+#Haskell
+ghc sort sorts/sort.hs
+t=$( { time (./sorts/sort;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Haskell = $t')
+rm sorts/*.hi sorts/*.o sorts/sort
+
+#Java
+javac sorts/sort.java
+java sorts/sort
+t=$( { time (java sorts.sort;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Java = $t')
+rm sorts/sort.class
+
+#Javascript
+t=$( { time (node sorts/sort.js;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Javascript = $t')
 
 #print all values
 echo "$results" | jq -r 'to_entries[] | "\(.key): \(.value)"'

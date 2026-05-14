@@ -1,4 +1,7 @@
-.vscode/
 .DS_Store
-*.exe
+.vscode/
 __pycache__/
+*.exe
+*.class
+*.o
+*.hi
