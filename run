@@ -41,6 +41,16 @@ results=$(echo "$results" | jq --arg t "$t" '.Javascript = $t')
 t=$( { time (rscript sorts/sort.r  > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.R = $t')
 
+#Rust
+rustc sorts/sort.rs
+t=$( { time (./sort;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Rust = $t')
+rm sort
+
+#Zig
+t=$( { time (zig run sorts/sort.zig;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
+
 #print all values
 echo "$results" | jq -r 'to_entries[] | "\(.key): \(.value)"'
 
