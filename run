@@ -6,5 +6,13 @@ TIMEFMT='%*E'
 #create JSON object to hold results
 results='{}'
 
+#add a value
+gcc sorts/sort.c -o sort
+t=$( { time ./sort; } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.C = $t')
+rm sort
+
 #print all values
 echo "$results" | jq -r 'to_entries[] | "\(.key): \(.value)"'
+
+#builtin, verbose
