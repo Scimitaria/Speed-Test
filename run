@@ -47,6 +47,10 @@ t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Rust = $t')
 rm sort
 
+#Swift
+t=$( { time (swift sorts/sort.swift;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Swift = $t')
+
 #Zig
 t=$( { time (zig run sorts/sort.zig;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
