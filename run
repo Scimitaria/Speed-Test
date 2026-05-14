@@ -25,6 +25,10 @@ rm sort
 t=$( { time (dotnet run sorts/sort.cs;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."C#" = $t')
 
+#Dart
+t=$( { time (dart run sorts/sort.dart;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Dart = $t')
+
 #Haskell
 ghc sorts/sort.hs > /dev/null 2>&1
 t=$( { time (./sorts/sort;) } 2>&1 )
