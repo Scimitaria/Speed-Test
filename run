@@ -71,6 +71,10 @@ results=$(echo "$results" | jq --arg t "$t" '.Swift = $t')
 t=$( { time (zig run sorts/sort.zig;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
 
+#Zsh
+t=$( { time (./sorts/sort.sh;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Zsh = $t')
+
 #print all values
 echo "$results" | jq -r 'to_entries[] | "\(.key): \(.value)"'
 
