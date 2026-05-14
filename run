@@ -37,6 +37,10 @@ rm sorts/sort.class
 t=$( { time (node sorts/sort.js;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Javascript = $t')
 
+#Python
+t=$( { time (python sorts/sort.py;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
+
 #R
 t=$( { time (rscript sorts/sort.r  > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.R = $t')
