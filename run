@@ -21,6 +21,10 @@ t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."C++" = $t')
 rm sort
 
+#C#
+t=$( { time (dotnet run sorts/sort.cs;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '."C#" = $t')
+
 #Haskell
 ghc sorts/sort.hs > /dev/null 2>&1
 t=$( { time (./sorts/sort;) } 2>&1 )
