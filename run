@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+#set time output to seconds
+TIMEFMT='%*E'
+
+#create JSON object to hold results
+results='{}'
+
+#print all values
+echo "$results" | jq -r 'to_entries[] | "\(.key): \(.value)"'
