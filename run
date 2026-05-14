@@ -41,6 +41,10 @@ rm sorts/sort.class
 t=$( { time (node sorts/sort.js;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Javascript = $t')
 
+#LISP
+t=$( { time (sbcl --script sorts/sort.lisp;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.LISP = $t')
+
 #Python
 t=$( { time (python sorts/sort.py;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
