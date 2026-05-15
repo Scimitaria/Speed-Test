@@ -70,9 +70,15 @@ results=$(echo "$results" | jq --arg t "$t" '.Rust = $t')
 rm sort
 
 #Scala
-t=$( { time (scala sorts/sort.scala;) } 2>&1 )
+t=$( { time (scala sorts/sort.scala > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Scala = $t')
 rm -rf sorts/.bsp sorts/.scala-build
+
+#SQL
+if [[ -f "sorts/.env" ]]; then
+    t=$( { time (mysql -u root -p$(head -n 1 sorts/.env) $(sed -n '2p' sorts/.env) < sorts/sort.sql > /dev/null 2>&1;) } 2>&1)
+    results=$(echo "$results" | jq --arg t "$t" '.SQL = $t')
+fi
 
 #Swift
 t=$( { time (swift sorts/sort.swift;) } 2>&1 )
