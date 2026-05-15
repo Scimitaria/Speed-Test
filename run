@@ -25,6 +25,12 @@ rm sort
 t=$( { time (dotnet run sorts/sort.cs;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."C#" = $t')
 
+#COBOL
+cobc -x sorts/sort.cobol
+t=$( { time (./sort;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.COBOL = $t')
+rm sort
+
 #Dart
 t=$( { time (dart run sorts/sort.dart;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Dart = $t')
@@ -66,6 +72,7 @@ rm sort
 #Scala
 t=$( { time (scala sorts/sort.scala;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Scala = $t')
+rm -rf sorts/.bsp sorts/.scala-build
 
 #Swift
 t=$( { time (swift sorts/sort.swift;) } 2>&1 )
