@@ -1,0 +1,2 @@
+*.cobol linguist-detectable=true
+*.cobol linguist-language=COBOL
