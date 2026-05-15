@@ -1,2 +1,4 @@
 *.cobol linguist-detectable=true
 *.cobol linguist-language=COBOL
+*.sql linguist-detectable=true
+*.sql linguist-language=SQL
