@@ -1,5 +1,7 @@
 .DS_Store
+.scala-build/
 .vscode/
+.bsp/
 __pycache__/
 *.exe
 *.class
