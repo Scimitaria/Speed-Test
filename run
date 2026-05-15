@@ -63,6 +63,10 @@ t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Rust = $t')
 rm sort
 
+#Scala
+t=$( { time (scala sorts/sort.scala;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Scala = $t')
+
 #Swift
 t=$( { time (swift sorts/sort.swift;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Swift = $t')
