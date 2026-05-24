@@ -93,6 +93,9 @@ t=$( { time (./sorts/sort.sh;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zsh = $t')
 
 #print all values
-echo "$results" | jq -r 'to_entries[] | "\(.key): \(.value)"'
+#echo "$results" | jq -r 'to_entries[] | "\(.key): \(.value)"'
+
+#print all values, fastest to slowest
+echo "$results" | jq -r 'to_entries | sort_by(.value)[] | "\(.key): \(.value)"'
 
 #builtin, verbose
