@@ -9,6 +9,10 @@ results='{}'
 minTime=999999
 fastest=Plankalkul
 
+#Bash
+t=$( { time (./sorts/sort.bash;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Bash = $t')
+
 #C
 gcc sorts/sort.c -o sort
 t=$( { time (./sort;) } 2>&1 )
@@ -93,7 +97,7 @@ t=$( { time (zig run sorts/sort.zig;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
 
 #Zsh
-t=$( { time (./sorts/sort.sh;) } 2>&1 )
+t=$( { time (./sorts/sort.zsh;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zsh = $t')
 
 #print all values
