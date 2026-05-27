@@ -84,6 +84,10 @@ fi
 t=$( { time (swift sorts/sort.swift;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Swift = $t')
 
+#Typescript
+t=$( { time (node "sorts/sort.ts ";) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Typescript = $t')
+
 #Zig
 t=$( { time (zig run sorts/sort.zig;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
