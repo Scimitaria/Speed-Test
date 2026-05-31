@@ -2,9 +2,12 @@
 .scala-build/
 .vscode/
 .bsp/
+bin/
 __pycache__/
 *.exe
 *.class
 *.o
 *.hi
 *.env
+*.swf
+application.xml

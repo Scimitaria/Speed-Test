@@ -9,6 +9,15 @@ results='{}'
 minTime=999999
 fastest=Plankalkul
 
+#Actionscript 3
+if [[ -f "sorts/application.xml" ]]; then
+    amxmlc sorts/sort.as > /dev/null 2>&1
+    t=$( { time (adl sorts/application.xml > /dev/null 2>&1;) } 2>&1 )
+    results=$(echo "$results" | jq --arg t "$t" '."Actionscript 3" = $t')
+    rm -rf sorts/bin
+    rm sorts/*.swf
+fi
+
 #Bash
 t=$( { time (./sorts/sort.bash;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Bash = $t')
