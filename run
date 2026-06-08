@@ -10,62 +10,62 @@ minTime=999999
 fastest=Plankalkul
 
 #Actionscript 3
-if [[ -f "sorts/application.xml" ]]; then
-    amxmlc sorts/sort.as > /dev/null 2>&1
-    t=$( { time (adl sorts/application.xml > /dev/null 2>&1;) } 2>&1 )
+if [[ -f "builtin/application.xml" ]]; then
+    amxmlc builtin/sort.as > /dev/null 2>&1
+    t=$( { time (adl builtin/application.xml > /dev/null 2>&1;) } 2>&1 )
     results=$(echo "$results" | jq --arg t "$t" '."Actionscript 3" = $t')
-    rm -rf sorts/bin
-    rm sorts/*.swf
+    rm -rf builtin/bin
+    rm builtin/*.swf
 fi
 
 #Bash
-t=$( { time (./sorts/sort.bash;) } 2>&1 )
+t=$( { time (./builtin/sort.bash;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Bash = $t')
 
 #C
-gcc sorts/sort.c -o sort
+gcc builtin/sort.c -o sort
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.C = $t')
 rm sort
 
 #C++
-g++ sorts/sort.cpp -o sort
+g++ builtin/sort.cpp -o sort
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."C++" = $t')
 rm sort
 
 #C#
-t=$( { time (dotnet run sorts/sort.cs;) } 2>&1 )
+t=$( { time (dotnet run builtin/sort.cs;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."C#" = $t')
 
 #COBOL
-cobc -x sorts/sort.cobol
+cobc -x builtin/sort.cobol
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.COBOL = $t')
 rm sort
 
 #Dart
-t=$( { time (dart run sorts/sort.dart;) } 2>&1 )
+t=$( { time (dart run builtin/sort.dart;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Dart = $t')
 
 #Haskell
-ghc sorts/sort.hs > /dev/null 2>&1
-t=$( { time (./sorts/sort;) } 2>&1 )
+ghc builtin/sort.hs > /dev/null 2>&1
+t=$( { time (./builtin/sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Haskell = $t')
-rm sorts/*.hi sorts/*.o sorts/sort
+rm builtin/*.hi builtin/*.o builtin/sort
 
 #Java
-javac sorts/sort.java
-t=$( { time (java sorts.sort;) } 2>&1 )
+javac builtin/sort.java
+t=$( { time (java builtin.sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Java = $t')
-rm sorts/sort.class
+rm builtin/sort.class
 
 #Javascript
-t=$( { time (node sorts/sort.js;) } 2>&1 )
+t=$( { time (node builtin/sort.js;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Javascript = $t')
 
 #LISP
-t=$( { time (sbcl --script sorts/sort.lisp;) } 2>&1 )
+t=$( { time (sbcl --script builtin/sort.lisp;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.LISP = $t')
 
 #Python
@@ -73,40 +73,40 @@ t=$( { time (python sorts/sort.py;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
 
 #R
-t=$( { time (rscript sorts/sort.r  > /dev/null 2>&1;) } 2>&1 )
+t=$( { time (rscript builtin/sort.r  > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.R = $t')
 
 #Rust
-rustc sorts/sort.rs
+rustc builtin/sort.rs
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Rust = $t')
 rm sort
 
 #Scala
-t=$( { time (scala sorts/sort.scala > /dev/null 2>&1;) } 2>&1 )
+t=$( { time (scala builtin/sort.scala > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Scala = $t')
-rm -rf sorts/.bsp sorts/.scala-build
+rm -rf builtin/.bsp builtin/.scala-build
 
 #SQL
-if [[ -f "sorts/.env" ]]; then
-    t=$( { time (mysql -u root -p$(head -n 1 sorts/.env) $(sed -n '2p' sorts/.env) < sorts/sort.sql > /dev/null 2>&1;) } 2>&1)
+if [[ -f "builtin/.env" ]]; then
+    t=$( { time (mysql -u root -p$(head -n 1 builtin/.env) $(sed -n '2p' builtin/.env) < builtin/sort.sql > /dev/null 2>&1;) } 2>&1)
     results=$(echo "$results" | jq --arg t "$t" '.SQL = $t')
 fi
 
 #Swift
-t=$( { time (swift sorts/sort.swift;) } 2>&1 )
+t=$( { time (swift builtin/sort.swift;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Swift = $t')
 
 #Typescript
-t=$( { time (node "sorts/sort.ts ";) } 2>&1 )
+t=$( { time (node "builtin/sort.ts ";) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Typescript = $t')
 
 #Zig
-t=$( { time (zig run sorts/sort.zig;) } 2>&1 )
+t=$( { time (zig run builtin/sort.zig;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
 
 #Zsh
-t=$( { time (./sorts/sort.zsh;) } 2>&1 )
+t=$( { time (./builtin/sort.zsh;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zsh = $t')
 
 #print all values
