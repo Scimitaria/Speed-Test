@@ -2,3 +2,5 @@
 *.cobol linguist-language=COBOL
 *.sql linguist-detectable=true
 *.sql linguist-language=SQL
+"*.ts " linguist-detectable=true
+"*.ts " linguist-language=TypeScript
