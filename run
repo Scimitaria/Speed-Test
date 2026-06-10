@@ -68,6 +68,10 @@ results=$(echo "$results" | jq --arg t "$t" '.Javascript = $t')
 t=$( { time (sbcl --script builtin/sort.lisp;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.LISP = $t')
 
+#Lua
+t=$( { time (lua builtin/sort.lua;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Lua = $t')
+
 #Python
 t=$( { time (python sorts/sort.py;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
