@@ -4,3 +4,5 @@
 *.sql linguist-language=SQL
 "*.ts " linguist-detectable=true
 "*.ts " linguist-language=TypeScript
+*.HC linguist-detectable=true
+*.HC linguist-language=HolyC

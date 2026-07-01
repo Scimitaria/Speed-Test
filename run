@@ -54,6 +54,12 @@ t=$( { time (./builtin/sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Haskell = $t')
 rm builtin/*.hi builtin/*.o builtin/sort
 
+#HolyC
+hcc --install-dir=/opt/homebrew/ builtin/sort.HC > /dev/null 2>&1
+t=$( { time (./a.out;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.HolyC = $t')
+rm a.out
+
 #Java
 javac builtin/sort.java
 t=$( { time (java builtin.sort;) } 2>&1 )
@@ -73,7 +79,7 @@ t=$( { time (lua builtin/sort.lua;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Lua = $t')
 
 #Python
-t=$( { time (python sorts/sort.py;) } 2>&1 )
+t=$( { time (python builtin/sort.py;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
 
 #R
