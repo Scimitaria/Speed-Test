@@ -111,6 +111,13 @@ results=$(echo "$results" | jq --arg t "$t" '.Swift = $t')
 t=$( { time (node "builtin/sort.ts ";) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Typescript = $t')
 
+#Visual Basic
+if [[ -f "builtin/sort.vbproj" ]]; then
+    t=$( { time (dotnet run --project=builtin;) } 2>&1 )
+    results=$(echo "$results" | jq --arg t "$t" '."Visual Basic" = $t')
+    rm -rf builtin/bin builtin/obj
+fi
+
 #Zig
 t=$( { time (zig run builtin/sort.zig;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
