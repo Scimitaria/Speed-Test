@@ -1,7 +1,6 @@
 //multithreaded Rank Sort
 namespace Sort
 {
-    using System.Threading.Tasks;
     class Program
     {
         static void Main(string[] args)
