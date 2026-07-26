@@ -18,6 +18,11 @@ if [[ -f "builtin/application.xml" ]]; then
     rm builtin/*.swf
 fi
 
+#APL
+t=$( { time (apl -f builtin/sort.apl > /dev/null 2>&1;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.APL = $t')
+rm .apl.history
+
 #Bash
 t=$( { time (./builtin/sort.bash;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Bash = $t')
