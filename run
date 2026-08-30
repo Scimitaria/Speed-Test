@@ -53,6 +53,20 @@ rm sort
 t=$( { time (dart run builtin/sort.dart;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Dart = $t')
 
+#Fortran
+gfortran \
+  -I/usr/local/include/fortran_stdlib/GNU-16.2.0 \
+  builtin/sort.f90 \
+  -L/usr/local/lib \
+  -lfortran_stdlib_sorting \
+  -lfortran_stdlib_bitsets \
+  -lfortran_stdlib_strings \
+  -lfortran_stdlib_core \
+  -o sort
+t=$( { time (./sort;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Fortran = $t')
+rm sort
+
 #Haskell
 ghc builtin/sort.hs > /dev/null 2>&1
 t=$( { time (./builtin/sort;) } 2>&1 )
