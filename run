@@ -105,6 +105,10 @@ results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
 t=$( { time (rscript builtin/sort.r  > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.R = $t')
 
+#Ruby
+t=$( { time (ruby builtin/sort.rb  > /dev/null 2>&1;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Ruby = $t')
+
 #Rust
 rustc builtin/sort.rs
 t=$( { time (./sort;) } 2>&1 )
