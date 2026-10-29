@@ -107,6 +107,10 @@ t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."Objective-C" = $t')
 rm sort
 
+#Perl
+t=$( { time (perl builtin/sort.pl;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Perl = $t')
+
 #Python
 t=$( { time (python builtin/sort.py;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
