@@ -101,6 +101,12 @@ results=$(echo "$results" | jq --arg t "$t" '.LISP = $t')
 t=$( { time (lua builtin/sort.lua;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Lua = $t')
 
+#Objective-C
+clang -fobjc-arc -framework Foundation builtin/sort.m -o sort
+t=$( { time (./sort;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '."Objective-C" = $t')
+rm sort
+
 #Python
 t=$( { time (python builtin/sort.py;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
