@@ -27,6 +27,10 @@ rm .apl.history
 t=$( { time (osascript builtin/sort.applescript > /dev/null;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Applescript = $t')
 
+#Awk
+t=$( { time (awk -f builtin/sort.awk;) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.Awk = $t')
+
 #Bash
 t=$( { time (./builtin/sort.bash;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Bash = $t')
