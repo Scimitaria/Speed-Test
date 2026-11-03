@@ -6,3 +6,5 @@
 "*.ts " linguist-language=TypeScript
 *.HC linguist-detectable=true
 *.HC linguist-language=HolyC
+*.pl linguist-detectable=true
+*.pl linguist-language=Perl
