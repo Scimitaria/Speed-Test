@@ -11,7 +11,7 @@ fastest=Plankalkul
 
 #Actionscript 3
 if [[ -f "builtin/application.xml" ]]; then
-    amxmlc builtin/sort.as > /dev/null 2>&1
+    amxmlc -optimize=true builtin/sort.as > /dev/null 2>&1
     t=$( { time (adl builtin/application.xml > /dev/null 2>&1;) } 2>&1 )
     results=$(echo "$results" | jq --arg t "$t" '."ActionScript 3" = $t')
     rm -rf builtin/bin
@@ -19,9 +19,9 @@ if [[ -f "builtin/application.xml" ]]; then
 fi
 
 #APL
-t=$( { time (apl -f builtin/sort.apl > /dev/null 2>&1;) } 2>&1 )
+t=$( { time (apl -O3 -f builtin/sort.apl > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.APL = $t')
-rm .apl.history
+rm .apl.history > /dev/null 2>&1
 
 #Applescript
 t=$( { time (osascript builtin/sort.applescript > /dev/null;) } 2>&1 )
@@ -36,23 +36,23 @@ t=$( { time (./builtin/sort.bash;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Bash = $t')
 
 #C
-gcc builtin/sort.c -o sort
+gcc -O2 -DNDEBUG -flto builtin/sort.c -o sort
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.C = $t')
 rm sort
 
 #C++
-g++ builtin/sort.cpp -o sort
+g++ -O2 -DNDEBUG -flto builtin/sort.cpp -o sort
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."C++" = $t')
 rm sort
 
 #C#
-t=$( { time (dotnet run builtin/sort.cs;) } 2>&1 )
+t=$( { time (dotnet run -c Release builtin/sort.cs > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."C#" = $t')
 
 #COBOL
-cobc -x builtin/sort.cobol
+cobc -O3 -x builtin/sort.cobol
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.COBOL = $t')
 rm sort
@@ -70,13 +70,14 @@ gfortran \
   -lfortran_stdlib_bitsets \
   -lfortran_stdlib_strings \
   -lfortran_stdlib_core \
+  -O3 -fopenmp \
   -o sort
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Fortran = $t')
 rm sort
 
 #Haskell
-ghc builtin/sort.hs > /dev/null 2>&1
+ghc -O2 builtin/sort.hs > /dev/null 2>&1
 t=$( { time (./builtin/sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Haskell = $t')
 rm builtin/*.hi builtin/*.o builtin/sort
@@ -106,7 +107,7 @@ t=$( { time (lua builtin/sort.lua;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Lua = $t')
 
 #Objective-C
-clang -fobjc-arc -framework Foundation builtin/sort.m -o sort
+clang -O2 -fobjc-arc -framework Foundation builtin/sort.m -o sort
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '."Objective-C" = $t')
 rm sort
@@ -116,7 +117,7 @@ t=$( { time (perl builtin/sort.pl;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Perl = $t')
 
 #Python
-t=$( { time (python builtin/sort.py;) } 2>&1 )
+t=$( { time (python -OO builtin/sort.py;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Python = $t')
 
 #R
@@ -128,13 +129,13 @@ t=$( { time (ruby builtin/sort.rb  > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Ruby = $t')
 
 #Rust
-rustc builtin/sort.rs
+rustc -C opt-level=3 builtin/sort.rs
 t=$( { time (./sort;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Rust = $t')
 rm sort
 
 #Scala
-t=$( { time (scala builtin/sort.scala > /dev/null 2>&1;) } 2>&1 )
+t=$( { time (scala -opt:local builtin/sort.scala > /dev/null 2>&1;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Scala = $t')
 rm -rf builtin/.bsp builtin/.scala-build
 
@@ -158,13 +159,13 @@ results=$(echo "$results" | jq --arg t "$t" '.VimScript = $t')
 
 #Visual Basic
 if [[ -f "builtin/sort.vbproj" ]]; then
-    t=$( { time (dotnet run --project=builtin;) } 2>&1 )
+    t=$( { time (dotnet run -c Release --project=builtin > /dev/null 2>&1;) } 2>&1 )
     results=$(echo "$results" | jq --arg t "$t" '."Visual Basic" = $t')
     rm -rf builtin/bin builtin/obj
 fi
 
 #Zig
-t=$( { time (zig run builtin/sort.zig;) } 2>&1 )
+t=$( { time (zig run -O ReleaseFast builtin/sort.zig;) } 2>&1 )
 results=$(echo "$results" | jq --arg t "$t" '.Zig = $t')
 
 #Zsh
