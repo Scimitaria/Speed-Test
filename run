@@ -13,7 +13,7 @@ fastest=Plankalkul
 if [[ -f "builtin/application.xml" ]]; then
     amxmlc builtin/sort.as > /dev/null 2>&1
     t=$( { time (adl builtin/application.xml > /dev/null 2>&1;) } 2>&1 )
-    results=$(echo "$results" | jq --arg t "$t" '."Actionscript 3" = $t')
+    results=$(echo "$results" | jq --arg t "$t" '."ActionScript 3" = $t')
     rm -rf builtin/bin
     rm builtin/*.swf
 fi
@@ -25,7 +25,7 @@ rm .apl.history
 
 #Applescript
 t=$( { time (osascript builtin/sort.applescript > /dev/null;) } 2>&1 )
-results=$(echo "$results" | jq --arg t "$t" '.Applescript = $t')
+results=$(echo "$results" | jq --arg t "$t" '.AppleScript = $t')
 
 #Awk
 t=$( { time (awk -f builtin/sort.awk;) } 2>&1 )
@@ -95,7 +95,7 @@ rm builtin/sort.class
 
 #Javascript
 t=$( { time (node builtin/sort.js;) } 2>&1 )
-results=$(echo "$results" | jq --arg t "$t" '.Javascript = $t')
+results=$(echo "$results" | jq --arg t "$t" '.JavaScript = $t')
 
 #LISP
 t=$( { time (sbcl --script builtin/sort.lisp;) } 2>&1 )
@@ -150,7 +150,11 @@ results=$(echo "$results" | jq --arg t "$t" '.Swift = $t')
 
 #Typescript
 t=$( { time (node "builtin/sort.ts ";) } 2>&1 )
-results=$(echo "$results" | jq --arg t "$t" '.Typescript = $t')
+results=$(echo "$results" | jq --arg t "$t" '.TypeScript = $t')
+
+#VimScript
+t=$( { time (vim -e -s -S builtin/sort.vim -c 'q!';) } 2>&1 )
+results=$(echo "$results" | jq --arg t "$t" '.VimScript = $t')
 
 #Visual Basic
 if [[ -f "builtin/sort.vbproj" ]]; then
